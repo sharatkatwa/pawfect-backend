@@ -18,8 +18,17 @@ const jwtDecode = (token) => {
   });
 };
 
+const setCookies = (token,res) =>{
+  res.cookie("token", token, {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000,
+});
+}
+
 const signup = asyncHandler(async (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const { name, email, password, cpassword: confirmPassword } = req.body;
 
   if (password !== confirmPassword)
@@ -36,12 +45,8 @@ const signup = asyncHandler(async (req, res) => {
     expiresIn: "7d",
   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+  setCookies(token,res)
+  
 
   return res.status(201).json({
     message: "signup successful",
@@ -67,12 +72,7 @@ const login = asyncHandler(async (req, res) => {
     expiresIn: "7d",
   });
 
-  res.cookie("token", token, {
-    httpOnly: true,
-    secure: false,
-    sameSite: "lax",
-    maxAge: 7 * 24 * 60 * 60 * 1000,
-  });
+  setCookies(token,res)
 
   return res.status(200).json({
     message: "Login successfull",
@@ -89,7 +89,11 @@ const login = asyncHandler(async (req, res) => {
 
 
 const logout = asyncHandler((req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+  httpOnly: true,
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+});
 
   res.status(200).json({
     message: "Logged out successfully",

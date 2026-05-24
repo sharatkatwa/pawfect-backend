@@ -59,7 +59,7 @@ const getAllProduct = asyncHandler(async (req, res) => {
     page = 1,
     limit = 10,
   } = req.query;
-  console.log(req.query);
+  // console.log(req.query);
   const query = {};
 
   // filter by category
