@@ -110,89 +110,322 @@ const users = [
   },
 ];
 
-const imageTagFor = (category, petType) => {
-  if (["dog", "cat", "bird", "fish", "rabbit", "hamster"].includes(petType)) {
-    return petType;
-  }
+const image = (photoId) =>
+  `https://images.unsplash.com/${photoId}?auto=format&fit=crop&w=1200&q=85`;
 
-  if (category === "food") return "petfood";
-  if (category === "toy") return "pettoy";
-  if (category === "grooming") return "pet";
-  if (category === "medicine") return "veterinary";
-  if (category === "accessory") return "pet";
-
-  return "pet";
-};
-
-const imageFor = (category, petType, index) =>
-  `https://loremflickr.com/800/600/${imageTagFor(category, petType)}?lock=${index + 101}`;
-
-const productTemplates = [
-  ["Golden Retriever Puppy", "Friendly vaccinated golden retriever puppy ready for a loving family home.", "pet", "dog", 25000, 2, 3, "Golden Retriever", "male", true],
-  ["Persian Cat Kitten", "Calm fluffy Persian kitten with gentle temperament and clean health record.", "pet", "cat", 18000, 3, 2, "Persian", "female", true],
-  ["Budgie Pair", "Healthy colorful budgie pair suitable for beginners and small indoor cages.", "pet", "bird", 3500, 4, 1, "Budgerigar", "unknown", false],
-  ["Rabbit White Doe", "Soft white rabbit with playful nature and good eating habits.", "pet", "rabbit", 4200, 2, 1, "New Zealand White", "female", true],
-  ["Hamster Syrian Male", "Active Syrian hamster with cage friendly behavior and clean coat.", "pet", "hamster", 1200, 5, 1, "Syrian", "male", false],
-  ["Betta Fish Blue", "Bright blue betta fish with active swimming pattern and vivid fins.", "pet", "fish", 650, 8, 1, "Betta", "male", false],
-  ["Labrador Puppy", "Energetic labrador puppy vaccinated and socialized for home adoption.", "pet", "dog", 22000, 2, 4, "Labrador", "female", true],
-  ["Siamese Cat", "Elegant Siamese cat with alert personality and litter trained habits.", "pet", "cat", 16000, 1, 8, "Siamese", "male", true],
-  ["Premium Dog Food", "Balanced chicken and rice dry food for adult dogs with high protein nutrition.", "food", "dog", 1850, 40],
-  ["Kitten Tuna Food", "Soft tuna recipe kitten food with essential vitamins for healthy growth.", "food", "cat", 720, 55],
-  ["Bird Seed Mix", "Nutritious seed mix for parrots, budgies, and other small pet birds.", "food", "bird", 320, 70],
-  ["Rabbit Hay Pack", "Fresh timothy hay pack that supports digestion and dental health for rabbits.", "food", "rabbit", 450, 60],
-  ["Fish Flakes", "Daily nutrition floating flakes for tropical aquarium fish and goldfish.", "food", "fish", 180, 80],
-  ["Dog Chew Toy", "Durable rubber chew toy designed for medium dogs and active play.", "toy", "dog", 399, 35],
-  ["Cat Feather Wand", "Interactive feather wand toy for exercise, jumping, and playful bonding.", "toy", "cat", 249, 50],
-  ["Bird Swing Toy", "Colorful hanging swing toy that keeps small birds engaged and active.", "toy", "bird", 299, 28],
-  ["Hamster Wheel", "Silent running exercise wheel suitable for hamsters and small rodents.", "toy", "hamster", 550, 22],
-  ["Dog Grooming Brush", "Comfort grip grooming brush for removing loose fur and reducing shedding.", "grooming", "dog", 499, 30],
-  ["Cat Nail Clipper", "Safe stainless steel nail clipper for cats and small pets.", "grooming", "cat", 199, 45],
-  ["Pet Shampoo Aloe", "Gentle aloe vera shampoo for dogs and cats with sensitive skin.", "grooming", "other", 349, 38],
-  ["Ear Cleaning Drops", "Mild ear cleaning drops for routine dog and cat hygiene care.", "medicine", "other", 275, 32],
-  ["Deworming Tablets", "Veterinary deworming tablets for routine parasite control in dogs.", "medicine", "dog", 420, 25],
-  ["Cat Hairball Gel", "Palatable gel that helps cats manage hairballs and digestion comfortably.", "medicine", "cat", 360, 20],
-  ["Adjustable Dog Collar", "Soft adjustable nylon collar with strong buckle for daily walks.", "accessory", "dog", 299, 65],
-  ["Cat Litter Box", "Easy clean litter box with high sides for cleaner indoor cat care.", "accessory", "cat", 899, 18],
-  ["Aquarium Filter", "Compact internal aquarium filter for clear water and steady circulation.", "accessory", "fish", 1150, 14],
-  ["Bird Cage Medium", "Powder coated medium bird cage with perch, feeder, and removable tray.", "accessory", "bird", 2200, 10],
-  ["Rabbit Water Bottle", "Leak resistant water bottle designed for rabbit and small pet cages.", "accessory", "rabbit", 320, 40],
-  ["Pet Travel Carrier", "Ventilated travel carrier for cats, puppies, and small pets.", "accessory", "other", 1450, 16],
-  ["Training Treat Pouch", "Waist clip treat pouch for dog training walks and reward sessions.", "other", "dog", 399, 24],
+const productCatalog = [
+  {
+    productName: "Milo - Golden Retriever Puppy",
+    description: "Three-month-old Golden Retriever puppy with a friendly temperament, first vaccination, deworming record, and veterinary health certificate.",
+    category: "pet",
+    petType: "dog",
+    price: 32000,
+    stock: 1,
+    age: 3,
+    breed: "Golden Retriever",
+    gender: "male",
+    isVaccinated: true,
+    images: [image("photo-1552053831-71594a27632d")],
+  },
+  {
+    productName: "Luna - Persian Kitten",
+    description: "Four-month-old white Persian kitten that is litter trained, vaccinated, dewormed, and comfortable around families.",
+    category: "pet",
+    petType: "cat",
+    price: 22000,
+    stock: 1,
+    age: 4,
+    breed: "Persian",
+    gender: "female",
+    isVaccinated: true,
+    images: [image("photo-1518791841217-8f162f1e1131")],
+  },
+  {
+    productName: "Rio and Sky - Budgerigar Pair",
+    description: "Healthy bonded budgerigar pair with bright plumage, active behavior, and a starter care guide for first-time bird parents.",
+    category: "pet",
+    petType: "bird",
+    price: 3800,
+    stock: 1,
+    age: 8,
+    breed: "Budgerigar",
+    gender: "unknown",
+    isVaccinated: false,
+    images: [image("photo-1552728089-57bdde30beb3")],
+  },
+  {
+    productName: "Snowy - Holland Lop Rabbit",
+    description: "Gentle six-month-old Holland Lop rabbit with a clean health check, soft coat, and calm indoor temperament.",
+    category: "pet",
+    petType: "rabbit",
+    price: 6500,
+    stock: 1,
+    age: 6,
+    breed: "Holland Lop",
+    gender: "female",
+    isVaccinated: true,
+    images: [image("photo-1585110396000-c9ffd4e4b308")],
+  },
+  {
+    productName: "Peanut - Syrian Hamster",
+    description: "Active golden Syrian hamster with a healthy coat and curious temperament, suitable for a properly sized solitary enclosure.",
+    category: "pet",
+    petType: "hamster",
+    price: 1500,
+    stock: 1,
+    age: 3,
+    breed: "Syrian Hamster",
+    gender: "male",
+    isVaccinated: false,
+    images: [image("photo-1425082661705-1834bfd09dca")],
+  },
+  {
+    productName: "Azure - Halfmoon Betta Fish",
+    description: "Healthy blue Halfmoon Betta with vivid fins and active swimming behavior, best kept in a filtered and heated aquarium.",
+    category: "pet",
+    petType: "fish",
+    price: 950,
+    stock: 1,
+    age: 6,
+    breed: "Halfmoon Betta",
+    gender: "male",
+    isVaccinated: false,
+    images: [image("photo-1522069169874-c58ec4b76be5")],
+  },
+  {
+    productName: "Bella - Labrador Retriever Puppy",
+    description: "Four-month-old Labrador Retriever puppy with vaccination record, deworming completed, and a playful family-friendly nature.",
+    category: "pet",
+    petType: "dog",
+    price: 28000,
+    stock: 1,
+    age: 4,
+    breed: "Labrador Retriever",
+    gender: "female",
+    isVaccinated: true,
+    images: [image("photo-1558788353-f76d92427f16")],
+  },
+  {
+    productName: "Simba - Siamese Cat",
+    description: "One-year-old Siamese cat that is vaccinated, litter trained, social, and ready for a calm indoor home.",
+    category: "pet",
+    petType: "cat",
+    price: 19000,
+    stock: 1,
+    age: 12,
+    breed: "Siamese",
+    gender: "male",
+    isVaccinated: true,
+    images: [image("photo-1573865526739-10659fec78a5")],
+  },
+  {
+    productName: "Royal Canin Maxi Adult Dog Food 4kg",
+    description: "Complete dry food formulated for adult large-breed dogs, with highly digestible proteins and support for bones and joints.",
+    category: "food",
+    petType: "dog",
+    price: 2890,
+    stock: 35,
+    images: [image("photo-1589924691995-400dc9ecc119")],
+  },
+  {
+    productName: "Whiskas Tuna Kitten Food 1.1kg",
+    description: "Tuna-flavoured dry kitten food with balanced protein, vitamins, minerals, and calcium for healthy growth.",
+    category: "food",
+    petType: "cat",
+    price: 520,
+    stock: 48,
+    images: [image("photo-1606214174585-fe31582dc6ee")],
+  },
+  {
+    productName: "Vitapol Budgie Seed Mix 1.2kg",
+    description: "Balanced daily seed blend for budgies with millet, grains, and selected seeds packed for freshness.",
+    category: "food",
+    petType: "bird",
+    price: 495,
+    stock: 42,
+    images: [image("photo-1612170153139-6f881ff067e0")],
+  },
+  {
+    productName: "Oxbow Western Timothy Hay 1.13kg",
+    description: "High-fibre hand-sorted Timothy hay that supports digestive and dental health in rabbits and small herbivores.",
+    category: "food",
+    petType: "rabbit",
+    price: 1499,
+    stock: 24,
+    images: [image("photo-1535241749838-299277b6305f")],
+  },
+  {
+    productName: "TetraBits Complete Fish Food 93g",
+    description: "Slow-sinking granules with balanced nutrients and colour-enhancing ingredients for discus and other tropical fish.",
+    category: "food",
+    petType: "fish",
+    price: 525,
+    stock: 60,
+    images: [image("photo-1544551763-46a013bb70d5")],
+  },
+  {
+    productName: "KONG Classic Rubber Dog Toy Medium",
+    description: "Durable natural-rubber enrichment toy with an unpredictable bounce and a hollow centre for treats.",
+    category: "toy",
+    petType: "dog",
+    price: 1099,
+    stock: 30,
+    images: [image("photo-1601758124510-52d02ddb7cbd")],
+  },
+  {
+    productName: "Trixie Cat Feather Wand",
+    description: "Interactive feather wand that encourages chasing, jumping, and supervised play for indoor cats.",
+    category: "toy",
+    petType: "cat",
+    price: 349,
+    stock: 46,
+    images: [image("photo-1545249390-6bdfa286032f")],
+  },
+  {
+    productName: "Living World Bird Swing",
+    description: "Wooden hanging swing designed to provide exercise, balance practice, and enrichment for small pet birds.",
+    category: "toy",
+    petType: "bird",
+    price: 399,
+    stock: 25,
+    images: [image("photo-1522926193341-e9ffd686c60f")],
+  },
+  {
+    productName: "Trixie Silent Hamster Wheel 20cm",
+    description: "Solid running wheel with a quiet mechanism and safe running surface for Syrian hamsters and small rodents.",
+    category: "toy",
+    petType: "hamster",
+    price: 899,
+    stock: 18,
+    images: [image("photo-1452721226468-f95fb66ebf83")],
+  },
+  {
+    productName: "Hertzko Self Cleaning Slicker Brush",
+    description: "Fine bent-wire grooming brush with a push-button cleaning system for removing loose fur and light tangles.",
+    category: "grooming",
+    petType: "dog",
+    price: 799,
+    stock: 27,
+    images: [image("photo-1516734212186-a967f81ad0d7")],
+  },
+  {
+    productName: "Trixie Cat Nail Clipper",
+    description: "Compact stainless-steel claw clipper with a comfortable grip for careful at-home cat grooming.",
+    category: "grooming",
+    petType: "cat",
+    price: 299,
+    stock: 38,
+    images: [image("photo-1576201836106-db1758fd1c97")],
+  },
+  {
+    productName: "Himalaya Erina EP Pet Shampoo 200ml",
+    description: "Gentle cleansing shampoo for dogs and cats formulated to maintain coat hygiene and reduce unpleasant odour.",
+    category: "grooming",
+    petType: "other",
+    price: 270,
+    stock: 40,
+    images: [image("photo-1556228578-8c89e6adf883")],
+  },
+  {
+    productName: "Virbac Epiotic Ear Cleanser 100ml",
+    description: "Routine ear-cleansing solution for dogs and cats; use according to label directions or veterinary advice.",
+    category: "medicine",
+    petType: "other",
+    price: 545,
+    stock: 26,
+    images: [image("photo-1587854692152-cbe660dbde88")],
+  },
+  {
+    productName: "Drontal Plus Deworming Tablets",
+    description: "Broad-spectrum deworming tablets for dogs. Dosage should be selected according to body weight and veterinary advice.",
+    category: "medicine",
+    petType: "dog",
+    price: 480,
+    stock: 32,
+    images: [image("photo-1584308666744-24d5c474f2ae")],
+  },
+  {
+    productName: "Beaphar Malt Hairball Paste 100g",
+    description: "Palatable malt paste formulated to help cats pass swallowed hair and support comfortable digestion.",
+    category: "medicine",
+    petType: "cat",
+    price: 699,
+    stock: 22,
+    images: [image("photo-1584308666744-24d5c474f2ae")],
+  },
+  {
+    productName: "HUFT Adjustable Padded Dog Collar",
+    description: "Soft padded everyday collar with an adjustable nylon strap, secure buckle, and metal leash ring.",
+    category: "accessory",
+    petType: "dog",
+    price: 649,
+    stock: 50,
+    images: [image("photo-1583512603806-077998240c7a")],
+  },
+  {
+    productName: "Savic Aseo Cat Litter Tray",
+    description: "High-backed litter tray with a lowered entrance and removable rim to help contain litter scatter.",
+    category: "accessory",
+    petType: "cat",
+    price: 1399,
+    stock: 16,
+    images: [image("photo-1548767797-d8c844163c4c")],
+  },
+  {
+    productName: "SOBO Internal Aquarium Filter WP-1200F",
+    description: "Compact internal aquarium filter that combines mechanical filtration with steady water circulation.",
+    category: "accessory",
+    petType: "fish",
+    price: 1250,
+    stock: 14,
+    images: [image("photo-1546026423-cc4642628d2b")],
+  },
+  {
+    productName: "Savic Primo 40 Bird Cage",
+    description: "Practical small-bird cage with perches, feeding bowls, pull-out cleaning tray, and secure access doors.",
+    category: "accessory",
+    petType: "bird",
+    price: 4499,
+    stock: 9,
+    images: [image("photo-1535930749574-1399327ce78f")],
+  },
+  {
+    productName: "Trixie Glass Rabbit Water Bottle 500ml",
+    description: "Chew-resistant glass drinking bottle with a stainless-steel nozzle and clear water-level indicator.",
+    category: "accessory",
+    petType: "rabbit",
+    price: 699,
+    stock: 28,
+    images: [image("photo-1535338454770-8be927b5a00b")],
+  },
+  {
+    productName: "M-Pets Airline Approved Pet Carrier",
+    description: "Ventilated hard-shell travel carrier with a secure front door and carry handle for cats and small dogs.",
+    category: "accessory",
+    petType: "other",
+    price: 2299,
+    stock: 15,
+    images: [image("photo-1601758174114-e711c0cbaa69")],
+  },
+  {
+    productName: "HUFT Dog Training Treat Pouch",
+    description: "Hands-free reward pouch with a wide opening, drawstring closure, and waist clip for training sessions.",
+    category: "other",
+    petType: "dog",
+    price: 599,
+    stock: 21,
+    images: [image("photo-1558788353-f76d92427f16")],
+  },
 ];
 
 const buildProducts = (sellerIds) =>
-  productTemplates.map((item, index) => {
-    const [
-      productName,
-      description,
-      category,
-      petType,
-      price,
-      stock,
-      age,
-      breed,
-      gender,
-      isVaccinated,
-    ] = item;
-
-    return {
-      seller: sellerIds[index % sellerIds.length],
-      productName,
-      description,
-      category,
-      petType,
-      price,
-      stock,
-      images: [imageFor(category, petType, index)],
-      ...(age !== undefined ? { age } : {}),
-      ...(breed ? { breed } : {}),
-      ...(gender ? { gender } : {}),
-      ...(isVaccinated !== undefined ? { isVaccinated } : {}),
-      status: stock > 0 ? "available" : "out_of_stock",
-      averageRating: 0,
-      totalReviews: 0,
-    };
-  });
+  productCatalog.map((product, index) => ({
+    ...product,
+    seller: sellerIds[index % sellerIds.length],
+    status: product.stock > 0 ? "available" : "out_of_stock",
+    averageRating: 0,
+    totalReviews: 0,
+  }));
 
 const getTotalAmount = (items) =>
   items.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -276,20 +509,19 @@ const seed = async () => {
   const seededUsers = await User.find({
     email: { $in: users.map((user) => user.email) },
   });
-  const seededUserIds = seededUsers.map((user) => user._id);
   const sellerUsers = seededUsers.filter((user) => user.role === "seller");
   const customerUsers = seededUsers.filter((user) => user.role === "customer");
   const sellerIds = sellerUsers.map((seller) => seller._id);
   const products = buildProducts(sellerIds);
 
+  // Product references exist in carts, wishlists, orders, and reviews, so reset
+  // all commerce data before replacing the complete product catalog.
   await Promise.all([
-    Cart.deleteMany({ buyer: { $in: seededUserIds } }),
-    Wishlist.deleteMany({ buyer: { $in: seededUserIds } }),
-    Order.deleteMany({ buyer: { $in: seededUserIds } }),
-    Review.deleteMany({ user: { $in: seededUserIds } }),
-    Product.deleteMany({
-      productName: { $in: products.map((product) => product.productName) },
-    }),
+    Cart.deleteMany({}),
+    Wishlist.deleteMany({}),
+    Order.deleteMany({}),
+    Review.deleteMany({}),
+    Product.deleteMany({}),
   ]);
 
   const insertedProducts = await Product.insertMany(products);
@@ -304,22 +536,22 @@ const seed = async () => {
     {
       buyer: customerByEmail["ananya.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Premium Dog Food"], 2),
-        buildOrderItem(productByName["Dog Chew Toy"], 1),
+        buildOrderItem(productByName["Royal Canin Maxi Adult Dog Food 4kg"], 2),
+        buildOrderItem(productByName["KONG Classic Rubber Dog Toy Medium"], 1),
       ],
     },
     {
       buyer: customerByEmail["rohan.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Cat Feather Wand"], 2),
-        buildOrderItem(productByName["Cat Litter Box"], 1),
+        buildOrderItem(productByName["Trixie Cat Feather Wand"], 2),
+        buildOrderItem(productByName["Savic Aseo Cat Litter Tray"], 1),
       ],
     },
     {
       buyer: customerByEmail["meera.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Bird Seed Mix"], 3),
-        buildOrderItem(productByName["Bird Cage Medium"], 1),
+        buildOrderItem(productByName["Vitapol Budgie Seed Mix 1.2kg"], 3),
+        buildOrderItem(productByName["Savic Primo 40 Bird Cage"], 1),
       ],
     },
   ].map((cart) => ({
@@ -331,22 +563,22 @@ const seed = async () => {
     {
       buyer: customerByEmail["ananya.customer@example.com"]._id,
       items: [
-        { product: productByName["Golden Retriever Puppy"]._id },
-        { product: productByName["Pet Travel Carrier"]._id },
+        { product: productByName["Milo - Golden Retriever Puppy"]._id },
+        { product: productByName["M-Pets Airline Approved Pet Carrier"]._id },
       ],
     },
     {
       buyer: customerByEmail["dev.customer@example.com"]._id,
       items: [
-        { product: productByName["Labrador Puppy"]._id },
-        { product: productByName["Training Treat Pouch"]._id },
+        { product: productByName["Bella - Labrador Retriever Puppy"]._id },
+        { product: productByName["HUFT Dog Training Treat Pouch"]._id },
       ],
     },
     {
       buyer: customerByEmail["isha.customer@example.com"]._id,
       items: [
-        { product: productByName["Persian Cat Kitten"]._id },
-        { product: productByName["Kitten Tuna Food"]._id },
+        { product: productByName["Luna - Persian Kitten"]._id },
+        { product: productByName["Whiskas Tuna Kitten Food 1.1kg"]._id },
       ],
     },
   ];
@@ -355,8 +587,8 @@ const seed = async () => {
     {
       buyer: customerByEmail["ananya.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Premium Dog Food"], 1),
-        buildOrderItem(productByName["Dog Grooming Brush"], 1),
+        buildOrderItem(productByName["Royal Canin Maxi Adult Dog Food 4kg"], 1),
+        buildOrderItem(productByName["Hertzko Self Cleaning Slicker Brush"], 1),
       ],
       shippingAddress: {
         phone: "9543210987",
@@ -370,8 +602,8 @@ const seed = async () => {
     {
       buyer: customerByEmail["rohan.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Persian Cat Kitten"], 1),
-        buildOrderItem(productByName["Kitten Tuna Food"], 2),
+        buildOrderItem(productByName["Luna - Persian Kitten"], 1),
+        buildOrderItem(productByName["Whiskas Tuna Kitten Food 1.1kg"], 2),
       ],
       shippingAddress: {
         phone: "9432109876",
@@ -389,8 +621,8 @@ const seed = async () => {
     {
       buyer: customerByEmail["meera.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Budgie Pair"], 1),
-        buildOrderItem(productByName["Bird Cage Medium"], 1),
+        buildOrderItem(productByName["Rio and Sky - Budgerigar Pair"], 1),
+        buildOrderItem(productByName["Savic Primo 40 Bird Cage"], 1),
       ],
       shippingAddress: {
         phone: "9321098765",
@@ -404,8 +636,8 @@ const seed = async () => {
     {
       buyer: customerByEmail["dev.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Labrador Puppy"], 1),
-        buildOrderItem(productByName["Adjustable Dog Collar"], 1),
+        buildOrderItem(productByName["Bella - Labrador Retriever Puppy"], 1),
+        buildOrderItem(productByName["HUFT Adjustable Padded Dog Collar"], 1),
       ],
       shippingAddress: {
         phone: "9210987654",
@@ -423,8 +655,8 @@ const seed = async () => {
     {
       buyer: customerByEmail["isha.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Cat Nail Clipper"], 1),
-        buildOrderItem(productByName["Cat Hairball Gel"], 1),
+        buildOrderItem(productByName["Trixie Cat Nail Clipper"], 1),
+        buildOrderItem(productByName["Beaphar Malt Hairball Paste 100g"], 1),
       ],
       shippingAddress: {
         phone: "9109876543",
@@ -438,8 +670,8 @@ const seed = async () => {
     {
       buyer: customerByEmail["sara.customer@example.com"]._id,
       items: [
-        buildOrderItem(productByName["Fish Flakes"], 2),
-        buildOrderItem(productByName["Aquarium Filter"], 1),
+        buildOrderItem(productByName["TetraBits Complete Fish Food 93g"], 2),
+        buildOrderItem(productByName["SOBO Internal Aquarium Filter WP-1200F"], 1),
       ],
       shippingAddress: {
         phone: "9876501234",
@@ -467,25 +699,25 @@ const seed = async () => {
   const reviews = [
     {
       user: customerByEmail["rohan.customer@example.com"]._id,
-      product: productByName["Persian Cat Kitten"]._id,
+      product: productByName["Luna - Persian Kitten"]._id,
       rating: 5,
       comment: "Beautiful kitten, healthy and already comfortable at home.",
     },
     {
       user: customerByEmail["rohan.customer@example.com"]._id,
-      product: productByName["Kitten Tuna Food"]._id,
+      product: productByName["Whiskas Tuna Kitten Food 1.1kg"]._id,
       rating: 4,
       comment: "Good quality food and my kitten liked it immediately.",
     },
     {
       user: customerByEmail["sara.customer@example.com"]._id,
-      product: productByName["Fish Flakes"]._id,
+      product: productByName["TetraBits Complete Fish Food 93g"]._id,
       rating: 5,
       comment: "Fish are eating well and the pack is good value.",
     },
     {
       user: customerByEmail["sara.customer@example.com"]._id,
-      product: productByName["Aquarium Filter"]._id,
+      product: productByName["SOBO Internal Aquarium Filter WP-1200F"]._id,
       rating: 4,
       comment: "Keeps the tank clear and was simple to install.",
     },
